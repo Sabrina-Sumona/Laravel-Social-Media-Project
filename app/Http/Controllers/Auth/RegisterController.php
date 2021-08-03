@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -70,4 +71,39 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
     }
+
+    public function showRegistrationForm()
+    {
+        return view('welcome');
+    }
+
+    public function register(Request $request){
+        $request->validate([
+           'fname'=> ['required', 'string', 'max:255'],
+           'lname'=> ['required', 'string', 'max:255'],
+           'email'=> ['required', 'string', 'email', 'unique:users'],
+           'password'=> ['required', 'string', 'min:8', 'confirmed'],
+           'day'=> ['required', 'numeric'],
+           'month'=> ['required', 'numeric'],
+           'year'=> ['required', 'numeric'],
+
+        ]);
+
+        $birthDay = strtotime($request->get('year'). '-' . $request->get('month'). '-' . $request->get('day'));
+        $birthDay= date('Y-m-d', $birthDay);
+
+
+        $userInfo= array();
+
+        $userInfo['fname']= $request->get('fname');
+        $userInfo['lname']= $request->get('lname');
+        $userInfo['email']= $request->get('email');
+        $userInfo['sex']= $request->get('sex')=='male'? 1 : 0;
+        $userInfo['password']= bcrypt($request->get('password'));
+        $userInfo['b_day']= $birthDay;
+
+        User::insert($userInfo);
+
+    }
+
 }
