@@ -17,27 +17,17 @@ Route::get('/', function () {
     return view('welcome');
 })->name('my_home');
 
-// Route::post('/login', function () {
+// Route::post('/login_1', function () {
 //     return view('login');
-// })->name('login.view');
-//
+// })->name('login_1.view');
 
-// Auth::routes();
-
-// Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
-
-Route::post('/login_1', function () {
-    return view('login');
-})->name('login_1.view');
-
-// Authentication Routes...
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
-Route::post('login', 'Auth\LoginController@login');
-Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+Route::post('login', 'Auth\LoginController@login')->name('saveLogin');
+Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
 // Registration Routes...
 Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
-Route::post('register', 'Auth\RegisterController@register');
+Route::post('register', 'Auth\RegisterController@register')->name('saveRegister');
 
 // Password Reset Routes...
 Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
@@ -55,4 +45,6 @@ Route::get('email/verify/{id}/{hash}', 'Auth\VerificationController@verify')->na
 /* Route::get('email/verify/{id}', 'Auth\VerificationController@verify')->name('verification.verify'); // v5.x */
 Route::get('email/resend', 'Auth\VerificationController@resend')->name('verification.resend');
 
+
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/dashboard', 'DashboardController@index')->name('dashboard');

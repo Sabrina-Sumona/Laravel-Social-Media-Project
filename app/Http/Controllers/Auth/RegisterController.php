@@ -7,6 +7,7 @@ use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -86,7 +87,6 @@ class RegisterController extends Controller
            'day'=> ['required', 'numeric'],
            'month'=> ['required', 'numeric'],
            'year'=> ['required', 'numeric'],
-
         ]);
 
         $birthDay = strtotime($request->get('year'). '-' . $request->get('month'). '-' . $request->get('day'));
@@ -103,6 +103,9 @@ class RegisterController extends Controller
         $userInfo['b_day']= $birthDay;
 
         User::insert($userInfo);
+
+        return redirect()->route('login');
+
 
     }
 

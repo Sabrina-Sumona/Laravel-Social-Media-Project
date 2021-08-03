@@ -49,15 +49,40 @@
                     <div class="pull-right col-sm-6 text-center">
                         <div class="login-form">
                             <p class="h3">Log in to FaceClone</p>
-                            <form action="javascript:void(0);" method="post" style="max-width:400px;margin:0px auto;">
+                            <form action="{{route('saveLogin')}}" method="post" style="max-width:400px;margin:0px auto;">
+                                @csrf
                                 <div class="form-group">
-                                    <input type="text" name="user_email" placeholder="Email Address" class="input-lg col-sm-12"/>
+                                    <input type="text" name="email" placeholder="Email Address" class="input-lg col-sm-12 @error('email') is-invalid @enderror" value="{{ old('email') }}" required/>
+                                    @error('email')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" placeholder="New Password" name="pwd" class="input-lg col-sm-12"/>
+                                    <input type="password" placeholder="New Password" name="password" class="input-lg col-sm-12 @error('password') is-invalid @enderror" required/>
+                                    @error('password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
                                     <input type="submit" value="Login" class="btn btn-success input-lg col-sm-12"/>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-md-6 offset-md-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+
+                                            <label class="form-check-label" for="remember">
+                                                {{ __('Remember Me') }}
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <br/><br/><br/><br/>
                                     <a href="{{ route('home') }}">Signup for FaceClone</a>
                                 </div>
