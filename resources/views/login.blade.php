@@ -84,7 +84,7 @@
                                 </div>
                                 <div class="form-group">
                                     <br/><br/><br/><br/>
-                                    <a href="{{ route('home') }}">Signup for FaceClone</a>
+                                    <a href="{{ route('my_home') }}">Signup for FaceClone</a>
                                 </div>
                             </form>
                         </div>

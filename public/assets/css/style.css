@@ -169,6 +169,13 @@ input:focus,select:focus,textarea:focus,button:focus{
     font-family: cursive;
     font-size: 15px;
 }
+
+#intro{
+  color: #3d8c40;
+  padding:30px;
+  margin:30px;
+}
+
 /*Footer*/
 .footer {
     padding: 20px 15px;

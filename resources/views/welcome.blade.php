@@ -55,6 +55,13 @@
                         </div>
                     </div>
                     <div class="row justify-content-end" >
+                      <div class=" col-sm-5" id="intro">
+                        <br>
+                        <h1><b>FaceClone</b></h1>
+                        <br>
+                        <br>
+                        <h3>FaceClone helps you connect and share with the people in your life.</h3>
+                      </div>
                         <div class=" col-sm-6">
                             <div class="signup-form">
                                 <h1>Create a new account</h1>

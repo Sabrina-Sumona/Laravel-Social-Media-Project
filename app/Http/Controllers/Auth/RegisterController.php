@@ -102,9 +102,11 @@ class RegisterController extends Controller
         $userInfo['password']= bcrypt($request->get('password'));
         $userInfo['b_day']= $birthDay;
 
-        User::insert($userInfo);
+        $user= User::create($userInfo);
 
-        return redirect()->route('login');
+        Auth::loginUsingId($user->id);
+
+        return redirect()->route('dashboard');
 
 
     }

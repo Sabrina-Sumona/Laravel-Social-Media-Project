@@ -17,9 +17,9 @@ Route::get('/', function () {
     return view('welcome');
 })->name('my_home');
 
-// Route::post('/login_1', function () {
-//     return view('login');
-// })->name('login_1.view');
+Route::post('/login_1', function () {
+    return view('login');
+})->name('login_1.view');
 
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login')->name('saveLogin');
