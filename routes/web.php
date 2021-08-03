@@ -47,4 +47,7 @@ Route::get('email/resend', 'Auth\VerificationController@resend')->name('verifica
 
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::group(['middleware'=>'auth'], function(){
 Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
+});
