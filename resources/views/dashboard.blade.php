@@ -5,7 +5,7 @@
         <div class="post col-sm-12" id="new_post">
             <div class="row post-heading" style="background: #2d9a40;">
                 <div class="col-sm-12">
-                    <h4 id="post-header">Create New Post</h4><br/>
+                    <h4 id="post-header" style="color: white;">Create New Post</h4><br/>
 
                 </div>
             </div>
@@ -42,12 +42,12 @@
 
         </div>
 
-        @foreach($posts as $post)
+        @foreach(array_reverse($posts) as $post)
             <div class="post col-sm-12" id="post_1">
                 <div class="row post-heading">
                     <div class="col-sm-12">
                         <a href="profile.html">
-                            <img src="assets/imgs/sabrina.jpg" class="profile-picture pull-left"/>
+                            <img src="{{asset(auth()->user()->image?? '/images/no_user.png')}}" height="200" width="200" class="profile-picture pull-left img-circle"/>
                             &nbsp;
                             <span class="post-user-name">{{$post['user']->fname.' '.$post['user']->lname}}</span><br/>
                             &nbsp;
@@ -77,3 +77,34 @@
         @endforeach
     </div>
 @endsection
+
+@push('scripts')
+    <script type="text/javascript">
+        function like(id){
+            var elem = document.getElementById("post_like_count_"+id);
+            var count = parseInt(elem.innerHTML);
+            elem.innerHTML = count+1;
+            highlight(elem);
+        }
+        function share(id){
+            var elem = document.getElementById("post_share_count_"+id);
+            var count = parseInt(elem.innerHTML);
+            elem.innerHTML = count+1;
+          highlight(elem);
+        }
+        function comment(id){
+            var elem = document.getElementById("post_comment_count_"+id);
+            var count = parseInt(elem.innerHTML);
+            elem.innerHTML = count+1;
+            highlight(elem);
+        }
+        function highlight(elem){
+            elem.style.color = "red";
+            elem.parentElement.parentElement.style.transform="scale(1.5)";
+            setTimeout(function(){
+                elem.style.color="";
+                elem.parentElement.parentElement.style.transform="scale(1)";
+            },300);
+        }
+      </script>
+@endpush

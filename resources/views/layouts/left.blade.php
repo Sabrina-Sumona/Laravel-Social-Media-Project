@@ -1,7 +1,8 @@
-<div class="col-sm-3 left-sidebar">
-    <ul>
-        <li><a href="./dashboard.html" class="active">News Feed</a></li>
-        <li><a href="./settings.html" class="active">Settings</a></li>
-        <li><a href="{{route('logout')}}">Logout</a></li>
-    </ul>
+<div class="col-sm-3">
+    <div class="sidebar">
+        <a href="{{route('dashboard')}}">News Feed</a>
+        <a href="{{route('profile.index')}}">Profile</a>
+        <a href="{{route('logout')}}">Logout</a>
+
+    </div>
 </div>

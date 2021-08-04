@@ -38,13 +38,7 @@ class PostController extends Controller
 
         if($request->hasFile('image')){
             $file= $request->file('image');
-
-            $extension= $file->getClientOriginalExtension();
-            $fileName= 'image_' . time() . '.' . $extension;
-            $location= '/images/user_'. Auth::user()->id. '/';
-
-            $file->move(public_path().$location, $fileName);
-            $imageFinal= $location.$fileName;
+            $imageFinal= processImage($file);
         }
 
         Post::insert([
