@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -162,4 +164,21 @@ class PostController extends Controller
             ]);
         }
     }
+
+    public function saveComment(Request $request){
+      $comment= $request->get('comment') ?? '';
+      $postId= $request->get('post_id') ?? '';
+
+      $data= new Comment();
+
+      $data->user_id= auth()->user()->id;
+      $data->post_id= $postId;
+      $data->comment= $comment;
+
+      $data->save();
+
+      Post::find($postId)->increment('comments');
+      return back();
+      }
+
 }

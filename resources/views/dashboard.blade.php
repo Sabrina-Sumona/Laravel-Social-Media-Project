@@ -73,6 +73,52 @@
                        <li class="pull-right"><a href="#" class="text-mute"><span id="post_like_count_{{$post['id']}}">{{$post['likes']}}</span> Likes</a></li>
                    </ul>
                </div>
+               <div class="post-comment" id="post_comment_{{$post['id']}}" style="display: none;">
+                   @php
+                       $all_comments= \App\Models\Comment::where('post_id', $post['id'])->get();
+                   @endphp
+
+                   @foreach($all_comments as $comm)
+                       @php
+                           $user= \App\Models\User::where('id', $comm->user_id)->first();
+                       @endphp
+                       <div class="row">
+                           <div class="col-sm-1">
+                               <a href="javascript:void(0);">
+                                   <img src="{{asset($user->image)}}" class="profile-picture-small pull-left"/>
+                               </a>
+                           </div>
+
+                           <div class="col-sm-11">
+                               <a href="javascript:void(0);">
+                                   <span class="post-user-name">{{$user->fname.' '.$user->lname}}</span>
+                               </a>
+                               {{$comm->comment}}
+                           </div>
+                       </div>
+                   @endforeach
+
+                   <div class="row">
+                       <form action="{{route('saveComment')}}" method="POST">
+                           @csrf
+                           <div class="col-sm-1 form-group">
+                               <a href="profile.html">
+                                   <img src="{{asset(auth()->user()->image ?? '/images/no_user.jpg')}}" class="profile-picture-small pull-left"/>
+                               </a>
+                           </div>
+
+                           <div class="col-sm-9 form-group">
+                               <textarea rows="1" name="comment" class="comment-text" placeholder="Add Comment" oninput="auto_height(this)"></textarea>
+                           </div>
+
+                           <div class="col-sm-2 form-group">
+                               <input type="hidden" name="post_id" value="{{$post['id']}}">
+                               <button type="submit" class="btn btn-success btn-xs">Comment</button>
+                           </div>
+                       </form>
+                   </div>
+
+               </div>
            </div>
        @endforeach
    </div>
@@ -105,6 +151,7 @@
 
 
    }
+
    function share(post_id){
        var elem = document.getElementById("post_share_count_"+post_id);
        var count = parseInt(elem.innerHTML);
@@ -127,11 +174,16 @@
 
        });
    }
-   function comment(id){
-       var elem = document.getElementById("post_comment_count_"+id);
-       var count = parseInt(elem.innerHTML);
-       elem.innerHTML = count+1;
-       highlight(elem);
+
+   function comment(post_id){
+       var elem = $('#post_comment_'+post_id);
+
+       if(elem.is(":visible")){
+           elem.hide();
+       } else{
+           elem.show();
+       }
+
    }
    function highlight(elem){
        elem.style.color = "red";

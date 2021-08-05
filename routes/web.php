@@ -55,4 +55,5 @@ Route::group(['middleware'=> 'auth'], function(){
     Route::post('/profile/edit', 'ProfileController@edit')->name('profile.edit');
     Route::post('update-likes', 'PostController@updateLikes')->name('updateLikes');
     Route::post('update-shares', 'PostController@updateShares')->name('updateShares');
+    Route::post('save-comment', 'PostController@saveComment')->name('saveComment');
 });

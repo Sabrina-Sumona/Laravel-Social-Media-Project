@@ -244,6 +244,28 @@ div.content {
    color: #4CAF50;
 }
 
+.profile-picture-small{
+  background-image:url(../assets/imgs/wall.jpg);
+  margin-right: 1ch;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  width: 15px;
+  height: 15px;
+  border-radius: 10px;
+}
+
+.post-comment{
+  border-top: 1px solid rgba(0,0,0,0.1);
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.comment-text{
+  border-radius: 5px;
+  width: 100%;
+  overflow: hidden;
+}
+
 @media screen and (max-width: 700px) {
 
 }
