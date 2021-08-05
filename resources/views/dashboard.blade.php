@@ -42,12 +42,12 @@
 
         </div>
 
-        @foreach(array_reverse($posts) as $post)
-            <div class="post col-sm-12" id="post_1">
+        @foreach($posts as $post)
+            <div class="post col-sm-12" id="post_{{$post['id']}}">
                 <div class="row post-heading">
                     <div class="col-sm-12">
-                        <a href="profile.html">
-                            <img src="{{asset(auth()->user()->image?? '/images/no_user.png')}}" height="200" width="200" class="profile-picture pull-left img-circle"/>
+                        <a href="{{route('profile.index')}}">
+                            <img src="{{asset($post['user']->image)?? '/images/no_user.jpg'}}" class="profile-picture pull-left"/>
                             &nbsp;
                             <span class="post-user-name">{{$post['user']->fname.' '.$post['user']->lname}}</span><br/>
                             &nbsp;
@@ -64,47 +64,66 @@
                     </div>
                 </div>
                 <div class="row post-action">
-                    <ul class="post-action-menu">
-                        <li><a href="javascript:void(0);" class="text-mute" onclick="like(1);">Like</a></li>
-                        <li><a href="javascript:void(0);" class="text-mute" onclick="share(1);">Share</a></li>
-                        <li><a href="javascript:void(0);" class="text-mute" onclick="comment(1);">Comment</a></li>
-                        <li class="pull-right"><a href="#" class="text-mute"><span id="post_share_count_1">{{$post['shares']}}</span> Shares</a></li>
-                        <li class="pull-right"><a href="#" class="text-mute"><span id="post_comment_count_1">{{$post['comments']}}</span> Comments</a></li>
-                        <li class="pull-right"><a href="#" class="text-mute"><span id="post_like_count_1">{{$post['likes']}}</span> Likes</a></li>
-                    </ul>
-                </div>
-            </div>
-        @endforeach
-    </div>
+                   <ul class="post-action-menu">
+                       <li><a href="javascript:void(0);" class="text-mute" onclick="like({{$post['id']}});">Like</a></li>
+                       <li><a href="javascript:void(0);" class="text-mute" onclick="share({{$post['id']}});">Share</a></li>
+                       <li><a href="javascript:void(0);" class="text-mute" onclick="comment({{$post['id']}});">Comment</a></li>
+                       <li class="pull-right"><a href="#" class="text-mute"><span id="post_share_count_{{$post['id']}}">{{$post['shares']}}</span> Shares</a></li>
+                       <li class="pull-right"><a href="#" class="text-mute"><span id="post_comment_count_{{$post['id']}}">{{$post['comments']}}</span> Comments</a></li>
+                       <li class="pull-right"><a href="#" class="text-mute"><span id="post_like_count_{{$post['id']}}">{{$post['likes']}}</span> Likes</a></li>
+                   </ul>
+               </div>
+           </div>
+       @endforeach
+   </div>
 @endsection
 
 @push('scripts')
-    <script type="text/javascript">
-        function like(id){
-            var elem = document.getElementById("post_like_count_"+id);
-            var count = parseInt(elem.innerHTML);
-            elem.innerHTML = count+1;
-            highlight(elem);
-        }
-        function share(id){
-            var elem = document.getElementById("post_share_count_"+id);
-            var count = parseInt(elem.innerHTML);
-            elem.innerHTML = count+1;
-          highlight(elem);
-        }
-        function comment(id){
-            var elem = document.getElementById("post_comment_count_"+id);
-            var count = parseInt(elem.innerHTML);
-            elem.innerHTML = count+1;
-            highlight(elem);
-        }
-        function highlight(elem){
-            elem.style.color = "red";
-            elem.parentElement.parentElement.style.transform="scale(1.5)";
-            setTimeout(function(){
-                elem.style.color="";
-                elem.parentElement.parentElement.style.transform="scale(1)";
-            },300);
-        }
-      </script>
+<script type="text/javascript">
+   function like(post_id){
+       var elem = document.getElementById("post_like_count_"+post_id);
+       var count = parseInt(elem.innerHTML);
+
+       $.ajax({
+           url: '{{route('updateLikes')}}',
+           type: 'POST',
+           dataType: 'json',
+           async: false,
+           data: {
+               post_id: post_id,
+               _token: '{{csrf_token()}}'
+           },
+           success: function (data){
+               if(data.success){
+                   elem.innerHTML = count + parseInt(data.result);
+                   highlight(elem);
+               }
+           }
+
+       });
+
+
+
+   }
+   function share(id){
+       var elem = document.getElementById("post_share_count_"+id);
+       var count = parseInt(elem.innerHTML);
+       elem.innerHTML = count+1;
+       highlight(elem);
+   }
+   function comment(id){
+       var elem = document.getElementById("post_comment_count_"+id);
+       var count = parseInt(elem.innerHTML);
+       elem.innerHTML = count+1;
+       highlight(elem);
+   }
+   function highlight(elem){
+       elem.style.color = "red";
+       elem.parentElement.parentElement.style.transform="scale(1.5)";
+       setTimeout(function(){
+           elem.style.color="";
+           elem.parentElement.parentElement.style.transform="scale(1)";
+       },300);
+   }
+</script>
 @endpush

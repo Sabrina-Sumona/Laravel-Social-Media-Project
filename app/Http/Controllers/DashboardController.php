@@ -14,6 +14,7 @@ class DashboardController extends Controller
         $posts= array();
         foreach($allPosts as $post){
             $posts[]= array(
+              'id'=> $post->id,
               'status'=> $post->status?? '',
               'photo'=> $post->photo?? '',
               'likes'=> count(json_decode($post->likes)) ?? 0,
