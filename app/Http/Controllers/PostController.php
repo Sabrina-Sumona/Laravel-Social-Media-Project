@@ -129,4 +129,37 @@ class PostController extends Controller
             ]);
         }
     }
+
+    public function updateShares(Request $request){
+        $postId= $request->get('post_id') ?? '';
+        if($postId){
+            $post= Post::find($postId);
+            $shares= $post->shares;
+            $shares_array= json_decode($shares, true);
+
+            if(in_array(auth()->user()->id, $shares_array)){
+                $shares_array= array_diff($shares_array, [auth()->user()->id]);
+                $post->shares= json_encode($shares_array);
+                $post->save();
+
+                return json_encode([
+                   'success'=> true,
+                   'result'=> -1
+                ]);
+            } else{
+                array_push($shares_array, auth()->user()->id);
+                $post->shares= json_encode($shares_array);
+                $post->save();
+
+                return json_encode([
+                    'success'=> true,
+                    'result'=> 1
+                ]);
+            }
+        } else{
+            return json_encode([
+                'success'=> false
+            ]);
+        }
+    }
 }

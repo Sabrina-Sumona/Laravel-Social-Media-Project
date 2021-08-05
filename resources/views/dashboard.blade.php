@@ -105,11 +105,27 @@
 
 
    }
-   function share(id){
-       var elem = document.getElementById("post_share_count_"+id);
+   function share(post_id){
+       var elem = document.getElementById("post_share_count_"+post_id);
        var count = parseInt(elem.innerHTML);
-       elem.innerHTML = count+1;
-       highlight(elem);
+
+       $.ajax({
+           url: '{{route('updateShares')}}',
+           type: 'POST',
+           dataType: 'json',
+           async: false,
+           data: {
+               post_id: post_id,
+               _token: '{{csrf_token()}}'
+           },
+           success: function (data){
+               if(data.success){
+                   elem.innerHTML = count + parseInt(data.result);
+                   highlight(elem);
+               }
+           }
+
+       });
    }
    function comment(id){
        var elem = document.getElementById("post_comment_count_"+id);
