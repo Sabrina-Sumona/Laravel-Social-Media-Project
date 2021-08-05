@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>FaceClone - The Social Network</title>
+    <title>FaceDiary</title>
     <link rel="shortcut icon" type="images/png" href="assets/imgs/logo.png" sizes="16x16">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

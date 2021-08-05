@@ -1,6 +1,6 @@
 @php
     $users= \App\Models\User::get();
-    $time= now()->subMinutes(1);
+    $time= now()->subMinutes(3);
 
     $active_users= \App\Models\User::where('last_login', '>=', $time)->pluck('id')->toArray();
 @endphp
@@ -17,7 +17,7 @@
             @endif
         ">
             <a href="#">
-                <img src="{{asset($user->image)?? '/images/no_user.jpg'}}" class="pull-left"/>
+                <img src="{{asset($user->image)?? '/images/no_user.png'}}" class="pull-left"/>
                 &nbsp;
                 {{$user->fname.' '.$user->lname}}
             </a>

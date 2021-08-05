@@ -42,7 +42,7 @@
 
         </div>
 
-        @foreach($posts as $post)
+        @foreach(array_reverse($posts) as $post)
             <div class="post col-sm-12" id="post_{{$post['id']}}">
                 <div class="row post-heading">
                     <div class="col-sm-12">
