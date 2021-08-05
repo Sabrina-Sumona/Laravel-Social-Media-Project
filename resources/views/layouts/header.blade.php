@@ -1,4 +1,9 @@
-<div class="header">
+@php
+    \App\Models\User::where('id', auth()->user()->id)->update([
+        'last_login'=> now()
+    ]);
+@endphp
+<div class="header no-shadow">
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-4">
@@ -8,10 +13,11 @@
             </div>
             <div class="col-sm-8">
                 <ul class="header-menu pull-right">
-                    <li><a href="#" class="">Requests</a></li>
-                    <li><a href="#" class="">Messages</a></li>
-                    <li><a href="#" class="">Notifications</a></li>
+                  <img src="{{asset(auth()->user()->image?? '/images/no_user.png')}}" width="40px" height="40px"/>
+                  &nbsp;
+                  {{auth()->user()->fname}} {{auth()->user()->lname}}
                 </ul>
+              </div>
             </div>
         </div>
     </div>
